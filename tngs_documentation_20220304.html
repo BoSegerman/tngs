@@ -1,0 +1,804 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin-left: 0.98in; margin-right: 0.39in; margin-top: 0.75in; margin-bottom: 0.75in }
+		p { margin-bottom: 0.1in; direction: ltr; line-height: 115%; text-align: left; orphans: 2; widows: 2; background: transparent }
+		p.western { font-family: "Georgia", serif; font-size: 10pt }
+		p.cjk { font-size: 10pt }
+		p.ctl { font-size: 12pt }
+	</style>
+</head>
+<body lang="sv-SE" link="#000080" vlink="#800000" dir="ltr"><p class="western" style="margin-bottom: 0in; line-height: 120%">
+<font size="6" style="font-size: 26pt"><span lang="en-US"><b>tngs  </b></span></font>
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><font size="3" style="font-size: 12pt"><span lang="en-US"><b>(perl
+edition)</b></span></font></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">version
+2022.03.04</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>Introduction</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+tngs project aims to provide a collection of tools supporting work
+with microbial genomics. This is the perl edition which is designed
+to provide a collection of useful command line tools in a single
+script with few dependencies. To run the script, a perl interpreter
+is needed which is usually present on linux and mac-os but on windows
+it may be necessary to install it manually (e.g. strawberryperl or
+activeperl).</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>Installation</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+script is ready to use, if a perl interpreter is available. Make sure
+the script has permission to be executable. You might want to place
+the script in a location covered by the $PATH.  (e.g.  for Ubuntu:
+home/youruser/bin  (make the bin dir if it is not present and make a
+log-out/log-in again) </span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>Parameter
+convention</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+script must be given a number of parameters. If the script is run
+without parameters it displays the tngs version and a list of
+available tools. The first parameter is always the tool. The
+following parameters will depend on the tool selected. Three types of
+parameters are used. “Flags” are parameters turning on a specific
+feature and always begin with “</span><font face="Arial, serif"><span lang="en-US">--</span></font><span lang="en-US">“
+(e.g., . “</span><font face="Arial, serif"><span lang="en-US">--verbose</span></font><span lang="en-US">“).
+Parameters with values are always directly followed by a “</span><font face="Arial, serif"><span lang="en-US">=</span></font><span lang="en-US">“
+and then the value. No spaces are allowed surrounding the “</span><font face="Arial, serif"><span lang="en-US">=</span></font><span lang="en-US">“
+ (e.g.,  “kmersize</span><font face="Arial, serif"><span lang="en-US">=30</span></font><span lang="en-US">“).</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+remaining parameters that are not flags (no   “</span><font face="Arial, serif"><span lang="en-US">--</span></font><span lang="en-US">“)
+and not value-parameters (no  “</span><font face="Arial, serif"><span lang="en-US">=</span></font><span lang="en-US">“
+ ) are usually interpreted as input filenames, directorynames or
+paths. <br/>
+The names of flags and parameters with values are case
+insensitive, while the values and the remaining parameters are case
+sensitive.</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">If
+parameters are given, that are not expected by the tool, a warning is
+usually printed.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Input
+files and output files can always either be uncompressed or
+compressed with gzip. If they end with “.gz”, the gzip algorithm
+is invoked. The compression/uncompression is made by perl IO:Zlib and
+gzip is not required (e.g. when used on windows).</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>Tools</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+current tools/commands are:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">version</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">help</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">fileinfo</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">downsample</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">filtercontigs</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">kmeroverlapp</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">kmerhisto</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>version</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+“version” command prints the current version of tngs.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Aliases:
+ version, -version, --version, -v </span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Flags:</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%">“<span lang="en-US">--verbose”
+ Will print versions of all tools and sub-tools.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>help</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+“help” command prints a list of the available tools/commands.
+This is the same message printed when tngs is run without parameters.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>fileinfo</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+“fileinfo” tool first determines the file type by looking at the
+file extension and then passes on the appropriate subtool.
+Alternatively a directory can be given and then all files in the
+directory will be analyzed. In the current version of tngs, directory
+input is only implemented for fasta files.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>fileinfo
+(subtool fastq)</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+analysis of fastq files assumes the fastq file contains short read
+data (typically Illumina data). </span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%">
+<span lang="en-US">Running tngs fileinfo on a fastq file will
+generate some basic quantifications and QC metrics. These include:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Nr
+reads</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Nr
+bases</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Nr
+bases &gt;=Q30</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Nrbases
+&lt;=Q20</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">GC
+content and base composition </span>
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Number
+of ‘N’ bases</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Range
+of and average sequence length</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+first 100k reads are analyzed a little bit deeper (limited for speed
+reasons)</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+best matching 16S sequences found are quantified and reported (done
+for selected species only).</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Matches
+to Illumina adapter sequences are quantified and reported.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Species
+that are searched for are:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Campylobacter
+jejuni/coli</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Listeria
+monocytogenes</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Escherichia
+coli</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Mycobacterium
+tuberculosis</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Klebsiella
+pneumoniae</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Streptococcus
+pneumoniae</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Staphylococcus
+aureus</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%">
+<span lang="en-US">Flags:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--tabular
+ will output the information in a tab separated table format</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--noheader
+ will skip the header row in tabular output format (may be used to
+get an output format that can be appended to a table with “&gt;&gt;”
+in linux systems)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--verbose
+  will output more information (also non discriminating 16S hits)</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Extensions
+recognized as fastq files are </span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">.fastq</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">.fq</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">.fastq.gz</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">.fq.gz</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>fileinfo
+(subtool fasta)</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+analysis of fasta files assumes the fasta file contains a genome or a
+genome assembly. </span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Running
+tngs fileinfo on a fasta file will generate some basic
+quantifications and assembly QC metrics. These include:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Nr
+sequences (contigs)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Nr
+bases</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">GC
+content and base composition </span>
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Number
+of ‘N’ bases</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Range
+of and average sequence length</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">N50</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">L50</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">N90</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">L90</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Number
+contigs &gt;=500</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Assembly
+size with contigs &gt;=500</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Number
+contigs &gt;=1kb</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Assembly
+size with contigs &gt;=1kb</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">If
+the assembly contig naming is in SPAdes format, the number of low
+coverage contigs are quantified. A low coverage contig has less than
+10% of the average k-mer coverage of the assembly and usually comes
+from a contamination in the WGS analysis. The following info is
+reported:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Number
+of low coverage contigs</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Cumulative
+size of low coverage contigs</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Cumulative
+size of low coverage contigs expressed as percent of assembly size</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Average
+k-mer coverage for this assembly, reported by SPAdes</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+best matching 16S sequences found are quantified and reported (done
+for selected species only).</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">If
+present, matches to Illumina adapter sequences are reported.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Species
+that are searched for are:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Campylobacter
+jejuni/coli</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Listeria
+monocytogenes</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Escherichia
+coli</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Mycobacterium
+tuberculosis</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Klebsiella
+pneumoniae</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Streptococcus
+pneumoniae</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Staphylococcus
+aureus</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%">
+<span lang="en-US">Flags:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--tabular
+ will output the information in a tab separated table format</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--notabular
+ do not use tabular format (which is default when used on a
+directory)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--noheader
+ will skip the header row in tabular output format (may be used to
+get an output format that can be appended to a table with “&gt;&gt;”
+in linux systems)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--recursive
+will search subdirs recursively</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">File
+extensions:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">File
+extensions recognized as fasta are:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">.fasta</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">.fa</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">.fna</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+extensions can also have a .gz ending.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 100%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%; page-break-before: always">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>downsample</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+“downsample” tool takes one ( or two if paired end) fastq files
+and information about the wanted amount of bases and then downsamples
+the fastq file(s) to the target size.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+wanted amount of bases can be specified in several ways:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">bases=100000000
+ </span>
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">number
+of bases should be 100000000</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">coverage=100
+genomesize=4000000</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">number
+of bases should give 100X coverage when the genomesize is 4 Mb
+(400000000 bases). </span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">coverage=50
+organism=campylobacter</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Number
+of bases should give 50X coverage when the genome size is like a
+typical campylobacter genome.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Available
+organisms:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">organism=campylobacter
+ (1.7 Mb)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">organism=salmonella
+(5 Mb)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%">organism=listeria
+(3 Mb)</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%">organism=ecoli
+(5 Mb)</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">organism=mycobacterium_tuberculosis
+(4.4 Mb)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">organism=klebsiella_pneumoniae
+(5.7 Mb)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">organism=streptococcus_pneumoniae
+(2.15 Mb)</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">organism=staphylococcus_aureus
+(2.8 Mb)</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+output file(s) will by default be named the same as the inputfile(s)
+but with a “.d” inserted before the extension (e.g.,
+myfile_R1.d.fastq.gz)</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">If
+custom names are wanted use</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">out1=newname_1.fastq.gz
+out2=newname_2.fastq.gz</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Flags:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--q30bases
+  count only bases with quality Q30 or higher.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>filtercontigs</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+“filtercontigs” tool takes a WGS assembly (fasta file) and
+removes short (&lt;200 bp) and low-coverage contigs (&lt;10% of
+average assembly k-mer coverage). Note!, Low-coverage filtering
+contig is only available when SPAdes style contig names are provided.
+</span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+thresholds can be adjusted</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">sizethreshold=500</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">coveragethreshold=20</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+output file will be named the same as the input file but with a “.f.”
+before the extension (e.g., myfile.f.fasta”.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Flags:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--verbose
+ output detailed information about each contig (size and coverage,
+keep or filter)</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>kmeroverlapp</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+“kmeroverlapp” tool takes two genomes/WGS assemblies and compares
+how many of the kmers (default=20-mers) in one of the genomes are
+present in the other (and the other way around).  The k-mer size can
+be changed e.g.  kmersize=19.</span></p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+default behaviour is that all k-mers are compared. Alternatively,
+only unique k-mers can be compared (use the .--unique flag). In that
+case, repetitive k-mers are ignored in the comparison.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Flags:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">--unique
+  only compare unique k-mers (ignore repetitive k-mers)</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US"><b>kmerhisto</b></span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+“kmerhisto” tools takes one (or two if paired end) fastq files
+and makes a histogram of the frequencies of the k-mers present
+(default 20-mers ).  The k-mer size can be changed e.g.  </span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">kmersize=19.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Optionally
+a reference genome sequence can be given, and then the histogram will
+show the frequencies in the fastq files of the k-mers present in the
+reference genome. </span>
+</p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">reference=myreference.fasta</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+histogram has by default 500 bins. This can be changed:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">bins=300</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">To
+get comparable histograms from different samples, a specific amount
+of bases may be used from the fastq files:</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">maxbases=50000000</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">The
+analysis will produce a table with the histogram values that can be
+plotted with a graph producing software. It will also try to estimate
+the genomesize based on the coverage peak position in comparison to
+the amount of data used.</span></p>
+<p lang="en-US" class="western" style="margin-bottom: 0in; line-height: 120%">
+<br/>
+
+</p>
+<p class="western" style="margin-bottom: 0in; line-height: 120%"><span lang="en-US">Optionally,
+a GC-bias table can also be produced. This is a table that prints out
+the average GC-content of every coverage bin. This can be used to
+detect if GC-content affects coverage.  This function can be
+activated by adding the “--gcbiasplot” flag.</span></p>
+</body>
+</html>
