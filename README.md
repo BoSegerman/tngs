@@ -1,5 +1,7 @@
 # tngs
 
+Current version 2022.09.16
+
 The tngs project aims to provide a collection of tools supporting work with microbial genomics. This is the perl edition which is designed to provide a collection of useful command line tools in a single script with few dependencies. 
 
 Current tools:
